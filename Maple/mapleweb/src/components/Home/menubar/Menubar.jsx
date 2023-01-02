@@ -68,23 +68,28 @@ const Menubar = () => {
             {/* 안의 카테고리는 5개인데 드롭다운 메뉴만큼 4번만 돌아가 카테고리가 4개만 나오는 현상 발생 */}
             {dropDownMenu.map((item2, index2) => {
               return (
-                <li key={`dropdown_${index}_${index2}`}>
-                  <Link to={routeAddressSubGroup[index][index2]}>
-                    {dropDownMenu[index][index2]}
-                  </Link>
-                </li>
+                <>
+                  <li key={`dropdown_${index}_${index2}`}>
+                    <Link to={routeAddressSubGroup[index][index2]}>
+                      {dropDownMenu[index][index2]}
+                    </Link>
+                  </li>
+                  {index2 == 3 && dropDownMenu[index][index2] == "연재소설" ?
+                    <li>
+                      <Link to={`/Community/Art`}>
+                        {"금쪽이아트"}
+                      </Link>
+                    </li>
+                    : ""}
+                </>
               );
             })}
-            
-            {/* 임시방편 */}
-            <li>
-              <Link to={`/Community/Art`}>
-                {"금쪽이아트"}
-              </Link>
-            </li>
+
+
+
 
           </ul>
-        </li>
+        </li >
       );
     });
   }, []);
