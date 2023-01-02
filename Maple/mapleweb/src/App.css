@@ -1,0 +1,32 @@
+
+a {
+  text-decoration: none;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+#root {
+  height: 100%;
+}
+
+#body_wrapper {
+  min-height: 100%;
+  min-width: 100%;
+  position: relative;
+}
+
+#body_content {
+  padding-bottom: 220px;
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "userId": "qwerty1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "타락파워전사",
+    "serverName": "스카니아",
+    "profileImg": "gendo.jpg"
+  },
+  {
+    "userId": "buffalo1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "와츄고나두",
+    "serverName": "레드",
+    "profileImg": "buffalo.png"
+  },
+  {
+    "userId": "orang1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "근데이제뭐함",
+    "serverName": "유니온",
+    "profileImg": "orangutan.png"
+  },
+  {
+    "userId": "suicide1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "코인실패자",
+    "serverName": "제니스",
+    "profileImg": "suicideMan.png"
+  },
+  {
+    "userId": "pepe1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "못생긴개구리",
+    "serverName": "크로아",
+    "profileImg": "pepe.png"
+  },
+  {
+    "userId": "nyang1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "애옹애옹애옹",
+    "serverName": "엘리시움",
+    "profileImg": "cat.png"
+  },
+  {
+    "userId": "jaehun1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "재후니",
+    "serverName": "리부트",
+    "profileImg": "jaejun.png"
+  },
+  {
+    "userId": "gawon1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "가워니",
+    "serverName": "오로라",
+    "profileImg": "gawon.png"
+  },
+  {
+    "userId": "useok1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "우서기",
+    "serverName": "스카니아",
+    "profileImg": "useok.png"
+  },
+  {
+    "userId": "hyerim1234",
+    "userPw": "cd687216491057a1dfbbb39d8a44065d10de4c3e811c691f492cd97a385e7c17",
+    "userName": "혜리미",
+    "serverName": "루나",
+    "profileImg": "hyerim.png"
+  }
+]
