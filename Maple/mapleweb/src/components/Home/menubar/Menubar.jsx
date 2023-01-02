@@ -41,8 +41,8 @@ const Menubar = () => {
     ["/Ranking", "/Ranking/BoardRanking", "/Ranking/CommentRanking"],
     [
       "/Community/Free",
+      "/Community/Dev",
       "/Community/Information",
-      "/Community/TopicDiscussion",
       "/Community/Novel",
       "/Community/Art",
       "/Community/Event",
