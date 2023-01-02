@@ -75,6 +75,14 @@ const Menubar = () => {
                 </li>
               );
             })}
+            
+            {/* 임시방편 */}
+            <li>
+              <Link to={`/Community/Art`}>
+                {"금쪽이아트"}
+              </Link>
+            </li>
+
           </ul>
         </li>
       );
@@ -84,9 +92,8 @@ const Menubar = () => {
   const location = useLocation();
   return (
     <MenubarComponent
-      className={`${BGColor ? "menubar_bgOn" : "menubar_bgOff"} ${
-        headerScroll ? "headerScroll_on" : "headerScroll_off"
-      }`}
+      className={`${BGColor ? "menubar_bgOn" : "menubar_bgOff"} ${headerScroll ? "headerScroll_on" : "headerScroll_off"
+        }`}
     >
       <div className="menubar_innerBox">
         {location.pathname == "/login" || location.pathname == "/regist" ? (
