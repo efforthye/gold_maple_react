@@ -21,7 +21,6 @@ export const CATEGORY = [
     { name: '정보게시판', label: "Information" },
     { name: '연재소설', label: "Novel" },
     { name: '금쪽이아트', label: "Art" },
-    { name: '이벤트게시판', label: "Event" },
 ];
 
 export const CATEGORY2 = [

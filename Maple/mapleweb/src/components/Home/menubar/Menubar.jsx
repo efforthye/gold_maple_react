@@ -24,7 +24,6 @@ const Menubar = () => {
       "정보게시판",
       "연재소설",
       "금쪽이아트",
-      "이벤트게시판",
     ],
     ["도움말/1:1문의", "버그악용/불법프로그램 신고"],
   ];
@@ -45,7 +44,6 @@ const Menubar = () => {
       "/Community/Information",
       "/Community/Novel",
       "/Community/Art",
-      "/Community/Event",
     ],
     ["/Support/Service", "/Support/BugReport"],
   ];
@@ -65,7 +63,9 @@ const Menubar = () => {
           <Link to={`/${routeAddress[index]}`}>
             <span className="menubar_item_outsideLi_text">{item}</span>
           </Link>
+          {/* 여기 */}
           <ul className="menubar_dropdown">
+            {/* 안의 카테고리는 5개인데 드롭다운 메뉴만큼 4번만 돌아가 카테고리가 4개만 나오는 현상 발생 */}
             {dropDownMenu.map((item2, index2) => {
               return (
                 <li key={`dropdown_${index}_${index2}`}>

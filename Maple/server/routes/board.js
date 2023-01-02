@@ -230,7 +230,7 @@ router.post("/mainCommunity", async (req, res) => {
       },
       order :[["createdAt","DESC"]]
     });
-    const resultTopic = await db.Board.findOne({
+    const resultDev = await db.Board.findOne({
       where : {
         category :"개발게시판"
       },
@@ -248,10 +248,16 @@ router.post("/mainCommunity", async (req, res) => {
       },
       order :[["createdAt","DESC"]]
     });
+    const resultArt = await db.Board.findOne({
+      where : {
+        category :"금쪽이아트"
+      },
+      order :[["createdAt","DESC"]]
+    });
 
     res.send({
       status: 200,
-      result: [resultFree, resultInfo, resultTopic,resultNovel],
+      result: [resultFree, resultDev, resultInfo, resultNovel, resultArt],
     });
   } catch (error) {
     console.error(error);
