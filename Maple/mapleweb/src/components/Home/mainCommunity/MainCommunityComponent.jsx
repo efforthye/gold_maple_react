@@ -19,7 +19,7 @@ const MainCommunityComponent = ({
         <div className="mainCommunity_innerBox_community">
           <div className="mainCommunity_innerBox_community_title">
             <h1 className="mainCommunity_innerBox_community_intro">
-              <span>금쪽이스토리</span> <span>커뮤니티</span>
+              <span>금쪽이스토리</span> <span>공부방</span>
               <Link to="/Community/Free" element={<CommunityComponet />}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

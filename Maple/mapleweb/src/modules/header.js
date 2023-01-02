@@ -46,7 +46,7 @@ export const reducer = (state = initialize, action) => {
         case "Ranking":
           return { banner: headerBanner3, icon: headericon3, text: "랭킹" };
         case "Community":
-          return { banner: headerBanner4, icon: headericon4, text: "커뮤니티" };
+          return { banner: headerBanner4, icon: headericon4, text: "공부방" };
         case "Media":
           return { banner: headerBanner5, icon: headericon5, text: "미디어" };
         case "Support":

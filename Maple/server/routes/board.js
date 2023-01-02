@@ -230,15 +230,15 @@ router.post("/mainCommunity", async (req, res) => {
       },
       order :[["createdAt","DESC"]]
     });
-    const resultInfo = await db.Board.findOne({
+    const resultTopic = await db.Board.findOne({
       where : {
-        category :"정보게시판"
+        category :"개발게시판"
       },
       order :[["createdAt","DESC"]]
     });
-    const resultTopic = await db.Board.findOne({
+    const resultInfo = await db.Board.findOne({
       where : {
-        category :"토론게시판"
+        category :"정보게시판"
       },
       order :[["createdAt","DESC"]]
     });

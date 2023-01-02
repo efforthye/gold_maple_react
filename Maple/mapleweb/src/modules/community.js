@@ -17,8 +17,8 @@ import world16Img from "../components/Community/images/worlds/icon_16.png";
 
 export const CATEGORY = [
     { name: '자유게시판', label: "Free" },
+    { name: '개발게시판', label: "Dev" },
     { name: '정보게시판', label: "Information" },
-    { name: '토론게시판', label: "TopicDiscussion" },
     { name: '연재소설', label: "Novel" },
     { name: '금쪽이아트', label: "Art" },
     { name: '이벤트게시판', label: "Event" },

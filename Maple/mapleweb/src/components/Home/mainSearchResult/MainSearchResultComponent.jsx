@@ -131,7 +131,7 @@ const MainSearchResultComponent = ({
         <table className="mainSearchResult_innerBox_resultTable">
           <tbody>
             <tr>
-              <td>커뮤니티</td>
+              <td>공부방</td>
               <td>
                 {searchResultData.length == 0 ? (
                   <div className="mainSearchResult_innerBox_resultTable_noneResult">

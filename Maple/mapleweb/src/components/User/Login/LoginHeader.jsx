@@ -48,11 +48,11 @@ const LoginHeadComp = () => {
             <Link to={"/Community/Free"}>
               <li>자유게시판</li>
             </Link>
+            <Link to={"/Community/Dev"}>
+              <li>개발게시판</li>
+            </Link>
             <Link to={"/Community/Information"}>
               <li>정보게시판</li>
-            </Link>
-            <Link to={"/Community/TopicDiscussion"}>
-              <li>토론게시판</li>
             </Link>
             <Link to={"/Community/Novel"}>
               <li>연재 소설</li>
