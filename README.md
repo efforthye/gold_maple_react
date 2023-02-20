@@ -1,7 +1,7 @@
 # GoldSaeKki
 <img src="https://mblogthumb-phinf.pstatic.net/MjAxODA1MTRfNDUg/MDAxNTI2MjgxNzYyODg5.oHk4cQMVLz3pM1k1_ZcWuy9jRZ8tEg0y08u-8B5AeKMg.JefNm06Oxfk2aAQG8gsalulIPVFHG7pFDcQWJRJpHy4g.JPEG.retspe/bn14.jpg?type=w800">
 
-# 금쪽이들과 예리미 (주)
+✨ 금쪽이들과 예리미 (주)
 
 - 금쪽이와 아이들 팀(정재훈, 이가원, 고우석, 박혜림)
 - Maple
@@ -10,11 +10,10 @@
 - AWS connect Domain : http://jaetube.errorcode.help
 
 # 개발환경
-- FrontEnd : HTML5, CSS3 ,React, Redux, node.js, react-bootstrap
-- BackEnd : node.js(express server), mysql(database, MySQL Workbench)
-- 형상관리 : git(GitHub Desktop)
+- FrontEnd : HTML5, CSS3, JavaScript React(Redux), ReactBootstrap
+- BackEnd : Node.js(express), MySQL
+- 형상관리 : github
 - Cloud : AWS(ec2, route53) <br/></br>
-
 
 
 # 타임라인
