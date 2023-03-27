@@ -13,7 +13,7 @@
 - FrontEnd : HTML5, CSS3, JavaScript React(Redux), ReactBootstrap
 - BackEnd : Node.js(express), MySQL
 - 형상관리 : github
-- Cloud : AWS(ec2, route53) <br/></br>
+- Cloud : AWS(ec2, route53) <br/></br>  
 
 
 # 타임라인
