@@ -39,7 +39,7 @@ app.use(
 );
 
 db.sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log('디비 연결!');
   })
