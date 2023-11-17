@@ -79,7 +79,8 @@
 # 실행 방법
 
 1. /Maple/server/config/config.json 에 쓰여진 대로 mysql schema를 생성합니다.
-   - name : maple, charset : utf8mb4, collation : utf8mb4_general_cli
+   - name : maple, username : root, password : 1234
+   - charset : utf8mb4, collation : utf8mb4_general_cli
 2. /Maple/server 에서 `npm install` -> `npm run start`으로 서버를 실행합니다.
 3. /Maple/mapleweb에서 `yarn install` -> `yarn start`로 클라이언트 서버를 실행합니다.
 4. 만약 코드 수정을 할 예정이라면 테이블 자동 삭제 방지를 위하여 /Maple/server/index.js 에서 `force`를 `false`로 설정해 줍니다.
