@@ -1,22 +1,22 @@
-"use strict";
+'use strict';
 
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
-import User from "./user.js";
-import Report from "./report.js";
+import User from './user.js';
+import Report from './report.js';
 
-import Board from "./board.js";
-import Comment from "./comment.js";
+import Board from './board.js';
+import Comment from './comment.js';
 
-import Admin from "./admin.js";
-import Category from "./category.js";
-import Helptext from "./helptext.js";
-import Helptextchild from "./helptextchild.js";
-import Msg from "./msg.js";
-import { createRequire } from "module";
+import Admin from './admin.js';
+import Category from './category.js';
+import Helptext from './helptext.js';
+import Helptextchild from './helptextchild.js';
+import Msg from './msg.js';
+import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const configJson = require("../config/config.json");
-const config = configJson["development"];
+const configJson = require('../config/config.json');
+const config = configJson['development'];
 
 const db = {
   User,
@@ -30,12 +30,7 @@ const db = {
   Msg,
 };
 
-let sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
-);
+let sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 User.init(sequelize);
 Report.init(sequelize);
@@ -49,8 +44,12 @@ Helptext.init(sequelize);
 Helptextchild.init(sequelize);
 Msg.init(sequelize);
 Object.keys(db).forEach((modelName) => {
+  console.log({ modelName });
   if (db[modelName].associate) {
+    console.log('연결');
     db[modelName].associate(db);
+  } else {
+    console.log('엥');
   }
 });
 

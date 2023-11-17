@@ -1,11 +1,11 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router();
 
-import db from "../models/index.js";
-import { Op } from "sequelize";
-import fs from "fs";
-import multer from "multer";
-import cloudinary from "cloudinary";
+import db from '../models/index.js';
+import { Op } from 'sequelize';
+import fs from 'fs';
+import multer from 'multer';
+import cloudinary from 'cloudinary';
 
 const storage = multer.diskStorage({
   filename: (req, res, callback) => {
@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 });
 const imageFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/i)) {
-    return callback(new Error("이미지 파일만 넣어주세요."), false);
+    return callback(new Error('이미지 파일만 넣어주세요.'), false);
   }
   callback(null, true);
 };
@@ -25,7 +25,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-router.post("/create", async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
     const tempUser = await db.User.findOne({
       where: {
@@ -52,13 +52,13 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.post("/getList", async (req, res) => {
+router.post('/getList', async (req, res) => {
   try {
     const tempBoards = await db.Board.findAll({
       where: {
         category: req.body.category,
       },
-      order: [["id", "DESC"]],
+      order: [['id', 'DESC']],
     });
 
     res.send(tempBoards);
@@ -68,14 +68,14 @@ router.post("/getList", async (req, res) => {
   }
 });
 
-router.post("/getWorldList", async (req, res) => {
+router.post('/getWorldList', async (req, res) => {
   try {
     const tempBoards = await db.Board.findAll({
       where: {
         category: req.body.category,
         world: req.body.world,
       },
-      order: [["id", "DESC"]],
+      order: [['id', 'DESC']],
     });
 
     res.send(tempBoards);
@@ -85,7 +85,7 @@ router.post("/getWorldList", async (req, res) => {
   }
 });
 
-router.post("/getBoard", async (req, res) => {
+router.post('/getBoard', async (req, res) => {
   try {
     const tempBoard = await db.Board.findAll({
       where: {
@@ -99,7 +99,7 @@ router.post("/getBoard", async (req, res) => {
   }
 });
 
-router.post("/destroy", (req, res) => {
+router.post('/destroy', (req, res) => {
   try {
     db.Board.destroy({
       where: { id: req.body.boardId },
@@ -112,7 +112,7 @@ router.post("/destroy", (req, res) => {
   }
 });
 
-router.post("/update", (req, res) => {
+router.post('/update', (req, res) => {
   console.log(req.body.title);
   try {
     db.Board.update(
@@ -133,7 +133,7 @@ router.post("/update", (req, res) => {
   }
 });
 
-router.post("/eyeCountUpdate", async (req, res) => {
+router.post('/eyeCountUpdate', async (req, res) => {
   const tempBoard = await db.Board.findOne({
     where: {
       id: req.body.boardId,
@@ -152,7 +152,7 @@ router.post("/eyeCountUpdate", async (req, res) => {
   res.end();
 });
 
-router.post("/likeCountUpdate", async (req, res) => {
+router.post('/likeCountUpdate', async (req, res) => {
   const tempBoard = await db.Board.findOne({
     where: {
       id: req.body.boardId,
@@ -171,7 +171,7 @@ router.post("/likeCountUpdate", async (req, res) => {
   res.end();
 });
 
-router.post("/commentCountUp", async (req, res) => {
+router.post('/commentCountUp', async (req, res) => {
   const tempBoard = await db.Board.findOne({
     where: {
       id: req.body.boardId,
@@ -189,7 +189,7 @@ router.post("/commentCountUp", async (req, res) => {
   );
   res.end();
 });
-router.post("/commentCountDown", async (req, res) => {
+router.post('/commentCountDown', async (req, res) => {
   const tempBoard = await db.Board.findOne({
     where: {
       id: req.body.boardId,
@@ -208,10 +208,10 @@ router.post("/commentCountDown", async (req, res) => {
   res.end();
 });
 
-router.post("/getLikeSevenBoards", async (req, res) => {
+router.post('/getLikeSevenBoards', async (req, res) => {
   try {
     const tempBoard = await db.Board.findAll({
-      order: [["likeCount", "DESC"]],
+      order: [['likeCount', 'DESC']],
       limit: 40,
     });
     res.send(tempBoard);
@@ -221,38 +221,37 @@ router.post("/getLikeSevenBoards", async (req, res) => {
   }
 });
 
-router.post("/mainCommunity", async (req, res) => {
+router.post('/mainCommunity', async (req, res) => {
   try {
     const resultFree = await db.Board.findOne({
-      where : {
-        category :"자유게시판",
-
+      where: {
+        category: '자유게시판',
       },
-      order :[["createdAt","DESC"]]
+      order: [['createdAt', 'DESC']],
     });
     const resultDev = await db.Board.findOne({
-      where : {
-        category :"개발게시판"
+      where: {
+        category: '개발게시판',
       },
-      order :[["createdAt","DESC"]]
+      order: [['createdAt', 'DESC']],
     });
     const resultInfo = await db.Board.findOne({
-      where : {
-        category :"정보게시판"
+      where: {
+        category: '정보게시판',
       },
-      order :[["createdAt","DESC"]]
+      order: [['createdAt', 'DESC']],
     });
     const resultNovel = await db.Board.findOne({
-      where : {
-        category :"연재소설"
+      where: {
+        category: '연재소설',
       },
-      order :[["createdAt","DESC"]]
+      order: [['createdAt', 'DESC']],
     });
     const resultArt = await db.Board.findOne({
-      where : {
-        category :"금쪽이아트"
+      where: {
+        category: '금쪽이아트',
       },
-      order :[["createdAt","DESC"]]
+      order: [['createdAt', 'DESC']],
     });
 
     res.send({
@@ -265,7 +264,7 @@ router.post("/mainCommunity", async (req, res) => {
   }
 });
 
-router.post("/reportboard", async (req, res) => {
+router.post('/reportboard', async (req, res) => {
   const tempBoard = await db.Board.findOne({
     where: { id: req.body.id },
   });
@@ -278,33 +277,25 @@ router.post("/reportboard", async (req, res) => {
       where: { id: req.body.id },
     }
   );
-  res.send("성공적으로 신고가 되었습니다.");
+  res.send('성공적으로 신고가 되었습니다.');
 });
 
-fs.readFile("./board.json", "utf-8", async function (err, data) {
-  const count = await db.Board.count();
-  if (err) {
-    console.error(err.message);
-  } else {
-    if (data && JSON.parse(data).length > count) {
-      JSON.parse(data).forEach((item) => {
-        try {
-          db.Board.create(item);
-        } catch (err) {
-          console.error(err);
-        }
-      });
-    }
-  }
-});
+// 여기, 서버 인덱스로 빼기
+// fs.readFile("./board.json", "utf-8", async function (err, data) {
+//   const count = await db.Board.count();
+//   if (err) {
+//     console.error(err.message);
+//   } else {
+//     if (data && JSON.parse(data).length > count) {
+//       JSON.parse(data).forEach((item) => {
+//         try {
+//           db.Board.create(item);
+//         } catch (err) {
+//           console.error(err);
+//         }
+//       });
+//     }
+//   }
+// });
 
 export default router;
-
-
-
-
-
-
-
-
-

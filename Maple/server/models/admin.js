@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export default class Admin extends Sequelize.Model {
   static init(sequelize) {
@@ -23,13 +23,15 @@ export default class Admin extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: true,
-        modelName: "Admin",
-        tableName: "admin",
+        modelName: 'Admin',
+        tableName: 'admin',
         paranoid: false,
 
-        charset: "utf8mb4",
-        collate: "utf8mb4_general_ci",
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
+
+  static associate(db) {}
 }

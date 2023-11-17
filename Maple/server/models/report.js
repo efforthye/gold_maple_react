@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export default class Report extends Sequelize.Model {
   static init(sequelize) {
@@ -27,19 +27,19 @@ export default class Report extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: true,
-        modelName: "Report",
-        tableName: "reports",
+        modelName: 'Report',
+        tableName: 'reports',
         paranoid: false,
-        charset: "utf8mb4",
-        collate: "utf8mb4_general_ci",
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
   static associate(db) {
     db.Report.belongsTo(db.User, {
-      foreignKey: "name",
-      targetKey: "userName",
-      onDelete: "cascade",
+      foreignKey: 'name',
+      targetKey: 'userName',
+      onDelete: 'cascade',
     });
   }
 }

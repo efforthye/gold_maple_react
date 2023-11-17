@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export default class Helptextchild extends Sequelize.Model {
   static init(sequelize) {
@@ -8,25 +8,24 @@ export default class Helptextchild extends Sequelize.Model {
           type: Sequelize.STRING(255),
           allowNull: false,
         },
-     
       },
       {
         sequelize,
         timestamps: true,
         underscored: true,
-        modelName: "Helptextchild",
-        tableName: "helptextchild",
+        modelName: 'Helptextchild',
+        tableName: 'helptextchild',
         paranoid: false,
-        charset: "utf8mb4",
-        collate: "utf8mb4_general_ci",
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
   static associate(db) {
     db.Helptextchild.belongsTo(db.Helptext, {
-      foreignKey: "textCategory",
-      targetKey: "text",
-      onDelete: "cascade",
+      foreignKey: 'textCategory',
+      targetKey: 'text',
+      onDelete: 'cascade',
     });
   }
 }

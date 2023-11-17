@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export default class Comment extends Sequelize.Model {
   static init(sequelize) {
@@ -26,37 +26,36 @@ export default class Comment extends Sequelize.Model {
         userWorld: {
           type: Sequelize.STRING(255),
           allowNull: false,
-          defaultValue: "리부트2",
+          defaultValue: '리부트2',
         },
-        report:{
-          type:Sequelize.INTEGER,
+        report: {
+          type: Sequelize.INTEGER,
           defaultValue: 0,
-      }
-
+        },
       },
       {
         sequelize,
         timestamps: true,
         underscored: true,
-        modelName: "Comment",
-        tableName: "comments",
+        modelName: 'Comment',
+        tableName: 'comments',
         paranoid: false,
-        charset: "utf8mb4",
-        collate: "utf8mb4_general_ci",
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
   static associate(db) {
     db.Comment.belongsTo(db.Board, {
-      foreignKey: "boardId",
-      targetKey: "id",
-      onDelete: "cascade",
+      foreignKey: 'boardId',
+      targetKey: 'id',
+      onDelete: 'cascade',
     });
 
     db.Comment.belongsTo(db.User, {
-      foreignKey: "userName",
-      targetKey: "userName",
-      onDelete: "cascade",
+      foreignKey: 'userName',
+      targetKey: 'userName',
+      onDelete: 'cascade',
     });
   }
 }

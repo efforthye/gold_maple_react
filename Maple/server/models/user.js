@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export default class User extends Sequelize.Model {
   static init(sequelize) {
@@ -32,39 +32,39 @@ export default class User extends Sequelize.Model {
         timestamps: true,
         underscored: true,
         paranoid: false,
-        modelName: "User",
-        tableName: "user",
-        charset: "utf8mb4",
-        collate: "utf8mb4_general_ci",
+        modelName: 'User',
+        tableName: 'user',
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_general_ci',
       }
     );
   }
 
   static associate(db) {
     db.User.hasMany(db.Report, {
-      foreignKey: "name",
-      sourceKey: "userName",
-      as: "Report",
-      onDelete: "cascade",
+      foreignKey: 'name',
+      sourceKey: 'userName',
+      as: 'Report',
+      onDelete: 'cascade',
     });
     db.User.hasMany(db.Msg, {
-      sourceKey: "userName",
-      foreignKey: "name",
-      as: "Msg",
-      onDelete: "cascade",
+      sourceKey: 'userName',
+      foreignKey: 'name',
+      as: 'Msg',
+      onDelete: 'cascade',
     });
     db.User.hasMany(db.Comment, {
-      as: "Comment",
-      sourceKey: "userName",
-      foreignKey: "userName",
-      onDelete: "cascade",
+      as: 'Comment',
+      sourceKey: 'userName',
+      foreignKey: 'userName',
+      onDelete: 'cascade',
     });
 
     db.User.hasMany(db.Board, {
-      as: "Board",
-      sourceKey: "userName", 
-      foreignKey: "userName", 
-      onDelete: "cascade",
+      as: 'Board',
+      sourceKey: 'userName',
+      foreignKey: 'userName',
+      onDelete: 'cascade',
     });
   }
 }
