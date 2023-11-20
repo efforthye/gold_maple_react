@@ -5,13 +5,16 @@ import db from '../models/index.js';
 import fs from 'fs';
 
 const router = Router();
+const { Admin, Category, Helptext, Helptextchild, User, Board, Comment } = db;
+const { JWT_KEY } = process.env;
 
 router.post('/regist', async (req, res) => {
+  const { id, password, adminName } = req.body;
   try {
-    await db.Admin.create({
-      adminId: req.body.id,
-      adminPw: Cryptojs.SHA256(req.body.password).toString(),
-      adminName: req.body.adminName,
+    await Admin.create({
+      adminId: id,
+      adminPw: Cryptojs.SHA256(password).toString(),
+      adminName: adminName,
     }).then((data) => {
       res.send(req.body);
     });
@@ -22,19 +25,22 @@ router.post('/regist', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  const { id, password } = req.body;
   try {
-    const tempAdmin = await db.Admin.findOne({
-      where: { adminId: req.body.id },
+    const tempAdmin = await Admin.findOne({
+      where: { adminId: id },
     });
-    if (tempAdmin.dataValues.adminPw == Cryptojs.SHA256(req.body.password).toString()) {
+    const { dataValues } = tempAdmin;
+    const { adminPw, adminId, adminName } = dataValues;
+    if (adminPw == Cryptojs.SHA256(password).toString()) {
       res.cookie(
         'admin',
         jwt.sign(
           {
-            id: tempAdmin.dataValues.adminId,
-            name: tempAdmin.dataValues.adminName,
+            id: adminId,
+            name: adminName,
           },
-          process.env.JWT_KEY,
+          JWT_KEY,
           {
             algorithm: 'HS256',
             issuer: 'jjh',
@@ -42,7 +48,7 @@ router.post('/login', async (req, res) => {
         ),
         { maxAge: 1800000 }
       );
-      const name = tempAdmin.dataValues.adminName;
+      const name = adminName;
       res.send({
         name: name,
       });
@@ -54,7 +60,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/admincheck', (req, res) => {
-  const tempAdmin = jwt.verify(req.cookies.admin, process.env.JWT_KEY);
+  const tempAdmin = jwt.verify(req.cookies.admin, JWT_KEY);
   res.send(tempAdmin.name);
 });
 
@@ -64,13 +70,13 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/list', async (req, res) => {
-  const tempList = await db.Admin.findAll();
+  const tempList = await Admin.findAll();
   res.send(tempList);
 });
 
 router.post('/delete', async (req, res) => {
   const tempId = req.body;
-  await db.Admin.destroy({
+  await Admin.destroy({
     where: {
       id: tempId.idx,
     },
@@ -80,7 +86,7 @@ router.post('/delete', async (req, res) => {
 
 router.post('/category', async (req, res) => {
   try {
-    const category = await db.Category.create({
+    const category = await Category.create({
       category: req.body.text,
     });
     res.end();
@@ -92,7 +98,7 @@ router.post('/category', async (req, res) => {
 
 router.post('/addtext', async (req, res) => {
   try {
-    const category = await db.Category.findAll();
+    const category = await Category.findAll();
     res.send(category);
   } catch (err) {
     console.error(err);
@@ -101,7 +107,7 @@ router.post('/addtext', async (req, res) => {
 });
 
 router.post('/delcategory', async (req, res) => {
-  await db.Category.destroy({
+  await Category.destroy({
     where: {
       category: req.body.category,
     },
@@ -110,7 +116,7 @@ router.post('/delcategory', async (req, res) => {
 });
 
 router.post('/editcategory', async (req, res) => {
-  await db.Category.update(
+  await Category.update(
     {
       category: req.body.category,
     },
@@ -126,12 +132,12 @@ router.post('/editcategory', async (req, res) => {
 router.post('/helptext', async (req, res) => {
   try {
     const tempHelp = req.body;
-    const tempCategory = await db.Category.findOne({
+    const tempCategory = await Category.findOne({
       where: {
         category: tempHelp.category,
       },
     });
-    const tempHelpText = await db.Helptext.create({
+    const tempHelpText = await Helptext.create({
       text: tempHelp.text,
     });
     tempCategory.addHelp(tempHelpText);
@@ -144,7 +150,7 @@ router.post('/helptext', async (req, res) => {
 });
 
 router.post('/deltext', async (req, res) => {
-  await db.Helptext.destroy({
+  await Helptext.destroy({
     where: {
       text: req.body.text,
     },
@@ -153,7 +159,7 @@ router.post('/deltext', async (req, res) => {
 });
 
 router.post('/edittext', async (req, res) => {
-  await db.Helptext.update(
+  await Helptext.update(
     {
       text: req.body.text,
     },
@@ -168,7 +174,7 @@ router.post('/edittext', async (req, res) => {
 
 router.post('/addchild', async (req, res) => {
   try {
-    const helpText = await db.Helptext.findAll();
+    const helpText = await Helptext.findAll();
     res.send(helpText);
   } catch (err) {
     console.error(err);
@@ -179,12 +185,12 @@ router.post('/addchild', async (req, res) => {
 router.post('/addchildtext', async (req, res) => {
   try {
     const tempChild = req.body;
-    const tempHelpText = await db.Helptext.findOne({
+    const tempHelpText = await Helptext.findOne({
       where: {
         text: tempChild.category,
       },
     });
-    const tempHelpTextChild = await db.Helptextchild.create({
+    const tempHelpTextChild = await Helptextchild.create({
       textChild: tempChild.text,
     });
 
@@ -197,21 +203,21 @@ router.post('/addchildtext', async (req, res) => {
 });
 
 router.post('/displaychild', async (req, res) => {
-  const textChild = await db.Helptextchild.findAll({
-    include: { model: db.Helptext },
+  const textChild = await Helptextchild.findAll({
+    include: { model: Helptext },
   });
   res.send(textChild);
 });
 
 router.post('/delchild', async (req, res) => {
-  await db.Helptextchild.destroy({
+  await Helptextchild.destroy({
     where: { textChild: req.body.text },
   });
   res.end();
 });
 
 router.post('/editchild', async (req, res) => {
-  await db.Helptextchild.update(
+  await Helptextchild.update(
     {
       textChild: req.body.text,
     },
@@ -226,16 +232,16 @@ router.post('/editchild', async (req, res) => {
 let globalname;
 
 router.post('/displayuser', async (req, res) => {
-  const tempUser = await db.User.findAll({});
+  const tempUser = await User.findAll({});
 
   res.send(tempUser);
 });
 router.post('/searchuser', async (req, res) => {
-  const tempUser = await db.User.findOne({
+  const tempUser = await User.findOne({
     where: { userName: req.body.user },
     include: [
-      { model: db.Board, as: 'Board' },
-      { model: db.Comment, as: 'Comment' },
+      { model: Board, as: 'Board' },
+      { model: Comment, as: 'Comment' },
     ],
   });
 
@@ -243,17 +249,17 @@ router.post('/searchuser', async (req, res) => {
 });
 
 router.post('/deluser', async (req, res) => {
-  await db.User.destroy({
+  await User.destroy({
     where: { userName: req.body.userName },
   });
   res.send('성공적으로삭제함.');
 });
 
 router.post('/sendmsg', async (req, res) => {
-  const tempUser = await db.User.findOne({
+  const tempUser = await User.findOne({
     where: { userName: req.body.userName },
   });
-  const tempMsg = await db.Msg.create({
+  const tempMsg = await Msg.create({
     text: req.body.msg,
   });
   tempUser.addMsg(tempMsg);
@@ -261,23 +267,23 @@ router.post('/sendmsg', async (req, res) => {
 });
 
 router.post('/deluserboard', async (req, res) => {
-  await db.Board.destroy({
+  await Board.destroy({
     where: {
       id: req.body.id,
     },
   });
-  const tempUser = await db.User.findOne({
+  const tempUser = await User.findOne({
     where: { userName: req.body.user },
     include: [
-      { model: db.Board, as: 'Board' },
-      { model: db.Comment, as: 'Comment' },
+      { model: Board, as: 'Board' },
+      { model: Comment, as: 'Comment' },
     ],
   });
 
   res.send({ tempUser, msg: '성공적으로지워졌습니다.' });
 });
 router.post('/delusercomment', async (req, res) => {
-  await db.Comment.update(
+  await Comment.update(
     {
       text: '관리자에 의해 해당 댓글은 삭제되었습니다.',
     },
@@ -287,11 +293,11 @@ router.post('/delusercomment', async (req, res) => {
       },
     }
   );
-  const tempUser = await db.User.findOne({
+  const tempUser = await User.findOne({
     where: { userName: req.body.user },
     include: [
-      { model: db.Board, as: 'Board' },
-      { model: db.Comment, as: 'Comment' },
+      { model: Board, as: 'Board' },
+      { model: Comment, as: 'Comment' },
     ],
   });
 
@@ -299,12 +305,12 @@ router.post('/delusercomment', async (req, res) => {
 });
 
 router.post('/reportboard', async (req, res) => {
-  const tempReport = await db.Board.findAll({});
+  const tempReport = await Board.findAll({});
   res.send(tempReport);
 });
 
 router.post('/reportcomment', async (req, res) => {
-  const tempReport = await db.Comment.findAll({});
+  const tempReport = await Comment.findAll({});
   res.send(tempReport);
 });
 
@@ -312,7 +318,7 @@ router.post('/changefirst', async (req, res) => {
   const changeFrom = req.body.changeFromArr;
   const changeTo = req.body.changeToArr;
 
-  await db.Category.update(
+  await Category.update(
     {
       id: 100,
     },
@@ -322,7 +328,7 @@ router.post('/changefirst', async (req, res) => {
       },
     }
   );
-  await db.Category.update(
+  await Category.update(
     {
       id: 200,
     },
@@ -333,7 +339,7 @@ router.post('/changefirst', async (req, res) => {
     }
   );
 
-  await db.Category.update(
+  await Category.update(
     {
       id: changeFrom.id,
     },
@@ -343,7 +349,7 @@ router.post('/changefirst', async (req, res) => {
       },
     }
   );
-  await db.Category.update(
+  await Category.update(
     {
       id: changeTo.id,
     },
@@ -360,7 +366,7 @@ router.post('/changefirst', async (req, res) => {
 router.post('/changesecond', async (req, res) => {
   const changeFrom = req.body.changeFromArr;
   const changeTo = req.body.changeToArr;
-  await db.Helptext.update(
+  await Helptext.update(
     {
       id: 1000000,
     },
@@ -370,7 +376,7 @@ router.post('/changesecond', async (req, res) => {
       },
     }
   );
-  await db.Helptext.update(
+  await Helptext.update(
     {
       id: 1000001,
     },
@@ -381,7 +387,7 @@ router.post('/changesecond', async (req, res) => {
     }
   );
 
-  await db.Helptext.update(
+  await Helptext.update(
     {
       id: changeFrom.id,
     },
@@ -391,7 +397,7 @@ router.post('/changesecond', async (req, res) => {
       },
     }
   );
-  await db.Helptext.update(
+  await Helptext.update(
     {
       id: changeTo.id,
     },
@@ -407,7 +413,7 @@ router.post('/changesecond', async (req, res) => {
 router.post('/changethird', async (req, res) => {
   const changeFrom = req.body.changeFromArr;
   const changeTo = req.body.changeToArr;
-  await db.Helptextchild.update(
+  await Helptextchild.update(
     {
       id: 1000000,
     },
@@ -417,7 +423,7 @@ router.post('/changethird', async (req, res) => {
       },
     }
   );
-  await db.Helptextchild.update(
+  await Helptextchild.update(
     {
       id: 1000001,
     },
@@ -428,7 +434,7 @@ router.post('/changethird', async (req, res) => {
     }
   );
 
-  await db.Helptextchild.update(
+  await Helptextchild.update(
     {
       id: changeFrom.id,
     },
@@ -438,7 +444,7 @@ router.post('/changethird', async (req, res) => {
       },
     }
   );
-  await db.Helptextchild.update(
+  await Helptextchild.update(
     {
       id: changeTo.id,
     },
@@ -453,14 +459,14 @@ router.post('/changethird', async (req, res) => {
 
 // 여기, 서버 인덱스로 빼기
 // fs.readFile('./admin.json', 'utf-8', async function (err, data) {
-//     const count = await db.Admin.count();
+//     const count = await Admin.count();
 //     if (err) {
 //         console.error(err.message);
 //     } else {
 //         if (data && JSON.parse(data).length > count) {
 //             JSON.parse(data).forEach((item) => {
 //                 try {
-//                     db.Admin.create(item);
+//                     Admin.create(item);
 //                 } catch (err) {
 //                     console.error(err);
 //                 }

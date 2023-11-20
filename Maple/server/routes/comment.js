@@ -1,96 +1,122 @@
-import { Router } from "express";
-import db from "../models/index.js";
+import { Router } from 'express';
+import db from '../models/index.js';
 const router = Router();
 
-router.post("/create", async(req,res)=>{
+const { Comment, User, Board } = db;
 
-    try {
-        const commentAdd = await db.Comment.create({
-            userName : req.body.userName,
-            text : req.body.text,
-            userWorld : req.body.userWorld
-        });
-        const commentUserName = await db.User.findOne({
-            where : {userName : req.body.userName}
-        });
-        commentUserName.addComment(commentAdd);
-        const boardId = await db.Board.findOne({
-            where : {id : req.body.boardId}
-        });
-        boardId.addBoardComments(commentAdd);
+router.post('/create', async (req, res) => {
+  const { userName, text, userWorld, boardId } = req.body;
 
-        res.send({status : 200});
-        res.end();
-    } catch (error) {
-        console.error(error);
-        res.send({status : 400});
-    }
+  try {
+    const createdComment = await Comment.create({
+      userName,
+      text,
+      userWorld,
+    });
+    const commentUser = await User.findOne({
+      where: { userName },
+    });
+    commentUser.addComment(createdComment);
+    const board = await Board.findOne({
+      where: { id: boardId },
+    });
+    board.addBoardComments(createdComment);
+
+    return res.send({ status: 200 });
+  } catch (error) {
+    console.error(error);
+    return res.send({ status: 400 });
+  }
 });
 
-router.post("/getComment", async(req,res)=>{
-    try {
-        const nowCommentList = await db.Comment.findAll({
-            where : {
-                boardId : req.body.boardId
-            }
-        });
-        res.send(nowCommentList);
-        res.end();
-    } catch (error) {
-        console.error(error);
-    }
+router.post('/getComment', async (req, res) => {
+  const { boardId } = req.body;
+
+  try {
+    const nowCommentList = await Comment.findAll({
+      where: {
+        boardId,
+      },
+    });
+    return res.send(nowCommentList);
+  } catch (error) {
+    console.error(error);
+    return res.send({ status: 400 });
+  }
 });
 
-router.post("/destroy", async(req,res)=>{
-    try {
-        await db.Comment.destroy({
-            where : {id : req.body.commentId},
-        }).then(()=>{
-            res.send({status : 200});
-        });
-        res.end();
-    } catch (error) {
-        console.error(error);
-        res.send({status : 400});
-    }
+router.post('/destroy', async (req, res) => {
+  const { commentId } = req.body;
+
+  try {
+    await Comment.destroy({
+      where: { id: commentId },
+    }).then(() => {
+      return res.send({ status: 200 });
+    });
+    return res.end();
+  } catch (error) {
+    console.error(error);
+    return res.send({ status: 400 });
+  }
 });
 
-router.post("/update", (req,res)=>{
-    try {
-        db.Comment.update({
-            text : req.body.commentText,
-        }, {
-            where : {id : req.body.commentId}
-        });
-        res.end();
-    } catch (error) {
-        console.error(error);
-    }
+router.post('/update', async (req, res) => {
+  const { commentText, commentId } = req.body;
+
+  try {
+    const updatedComment = await Comment.update(
+      {
+        text: commentText,
+      },
+      {
+        where: { id: commentId },
+      }
+    );
+    return res.send({ updatedComment });
+  } catch (error) {
+    console.error(error);
+    return res.send({ status: 400 });
+  }
 });
 
-router.post("/count", async(req,res)=>{
-    try {
-        const comment = await db.Comment.findAll({
-            where : {boardId : req.body.boardId}
-        });
-        res.send({number : comment.length});
-    } catch (error) {
-        console.error(error);
-    }
+router.post('/count', async (req, res) => {
+  const { boardId } = req.body;
+
+  try {
+    const comments = await Comment.findAll({
+      where: { boardId },
+    });
+    return res.send({ number: comments.length });
+  } catch (error) {
+    console.error(error);
+    return res.send({ status: 400 });
+  }
 });
 
-router.post("/reportcomment",async(req,res)=>{
-    const tempCommnet= await db.Comment.findOne({
-      where:{id:req.body.id}
-    })
-    const counting = tempCommnet.dataValues.report
-    await db.Comment.update({
-      report:counting+1,
-    },{
-      where:{id:req.body.id}
-    })
-  res.send("성공적으로 신고가 되었습니다.");
+router.post('/reportcomment', async (req, res) => {
+  const { id } = req.body;
 
-  })
+  try {
+    const comment = await Comment.findOne({
+      where: { id },
+    });
+    const { report } = comment?.dataValues;
+    const counting = report;
+
+    await Comment.update(
+      {
+        report: counting + 1,
+      },
+      {
+        where: { id },
+      }
+    );
+    return res.send('성공적으로 신고가 되었습니다.');
+  } catch (error) {
+    console.error(error);
+    return res.send({ status: 400 });
+  }
+});
 
 export default router;
